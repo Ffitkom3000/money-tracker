@@ -76,6 +76,8 @@ function saveBudget() {
 
   render();
 
+  closeModal();
+
   alert("✅ Budget berhasil disimpan");
 
 }
@@ -125,8 +127,25 @@ function addExpense() {
 
   render();
 
+  closeModal();
+
   document.getElementById("expenseAmount").value = "";
   document.getElementById("expenseNote").value = "";
+
+}
+
+function quickAdd(amount) {
+
+  data.expenses.push({
+    category: "Makan",
+    amount: amount,
+    note: "Quick Add",
+    date: new Date().toISOString()
+  });
+
+  saveData();
+
+  render();
 
 }
 
@@ -146,10 +165,7 @@ function editExpense(index) {
 
   editIndex = index;
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  openModal();
 
 }
 
@@ -195,6 +211,22 @@ function getTotal(category) {
 
 }
 
+function openModal() {
+
+  document
+    .getElementById("modal")
+    .classList.remove("hidden");
+
+}
+
+function closeModal() {
+
+  document
+    .getElementById("modal")
+    .classList.add("hidden");
+
+}
+
 function render() {
 
   const foodSpent =
@@ -215,6 +247,11 @@ function render() {
   const otherRemaining =
     data.budgets.other - otherSpent;
 
+  const totalRemaining =
+    foodRemaining +
+    snackRemaining +
+    otherRemaining;
+
   const today = new Date();
 
   const lastDay =
@@ -230,46 +267,60 @@ function render() {
   const dailyLimit =
     Math.floor(foodRemaining / remainingDays);
 
-  document.getElementById("foodSummary").innerHTML = `
+  // HERO
 
-    <div class="font-bold text-lg">
-      🍜 Sisa Makan
-    </div>
+  document.getElementById("heroLimit").innerHTML =
+    formatRupiah(dailyLimit);
 
-    <div class="text-2xl font-bold mt-2">
-      ${formatRupiah(foodRemaining)}
-    </div>
+  document.getElementById("heroRemaining").innerHTML =
+    formatRupiah(totalRemaining);
 
-    <div class="text-sm text-gray-500 mt-2">
-      Maksimal per hari:
-      ${formatRupiah(dailyLimit)}
-    </div>
+  document.getElementById("heroDays").innerHTML =
+    remainingDays + " Hari";
 
-  `;
+  // STATUS
 
-  document.getElementById("snackSummary").innerHTML = `
+  const heroStatus =
+    document.getElementById("heroStatus");
 
-    <div class="font-bold text-lg">
-      🍟 Sisa Jajan
-    </div>
+  if (dailyLimit >= 40000) {
 
-    <div class="text-2xl font-bold mt-2">
-      ${formatRupiah(snackRemaining)}
-    </div>
+    heroStatus.innerHTML =
+      "🟢 AMAN";
 
-  `;
+    heroStatus.className =
+      "mt-4 inline-block px-4 py-2 rounded-full bg-green-500 text-sm font-bold";
 
-  document.getElementById("otherSummary").innerHTML = `
+  } else if (dailyLimit >= 20000) {
 
-    <div class="font-bold text-lg">
-      📦 Sisa Lain-lain
-    </div>
+    heroStatus.innerHTML =
+      "🟡 HEMAT DIKIT";
 
-    <div class="text-2xl font-bold mt-2">
-      ${formatRupiah(otherRemaining)}
-    </div>
+    heroStatus.className =
+      "mt-4 inline-block px-4 py-2 rounded-full bg-yellow-400 text-black text-sm font-bold";
 
-  `;
+  } else {
+
+    heroStatus.innerHTML =
+      "🔴 BOROS";
+
+    heroStatus.className =
+      "mt-4 inline-block px-4 py-2 rounded-full bg-red-500 text-sm font-bold";
+
+  }
+
+  // SUMMARY
+
+  document.getElementById("foodSummary").innerHTML =
+    formatRupiah(foodRemaining);
+
+  document.getElementById("snackSummary").innerHTML =
+    formatRupiah(snackRemaining);
+
+  document.getElementById("otherSummary").innerHTML =
+    formatRupiah(otherRemaining);
+
+  // HISTORY
 
   const history =
     document.getElementById("history");
@@ -286,7 +337,7 @@ function render() {
 
     history.innerHTML += `
 
-      <div class="border p-3 rounded-2xl">
+      <div class="bg-white rounded-2xl p-4 shadow-sm">
 
         <div class="flex justify-between items-center">
 
@@ -302,27 +353,31 @@ function render() {
 
           </div>
 
-          <div class="font-bold">
-            ${formatRupiah(item.amount)}
+          <div class="text-right">
+
+            <div class="font-bold">
+              ${formatRupiah(item.amount)}
+            </div>
+
+            <div class="flex gap-2 mt-2">
+
+              <button
+                onclick="editExpense(${originalIndex})"
+                class="text-blue-500 text-sm"
+              >
+                Edit
+              </button>
+
+              <button
+                onclick="deleteExpense(${originalIndex})"
+                class="text-red-500 text-sm"
+              >
+                Hapus
+              </button>
+
+            </div>
+
           </div>
-
-        </div>
-
-        <div class="flex gap-2 mt-3">
-
-          <button
-            onclick="editExpense(${originalIndex})"
-            class="flex-1 bg-blue-500 text-white p-2 rounded-xl"
-          >
-            Edit
-          </button>
-
-          <button
-            onclick="deleteExpense(${originalIndex})"
-            class="flex-1 bg-red-500 text-white p-2 rounded-xl"
-          >
-            Hapus
-          </button>
 
         </div>
 

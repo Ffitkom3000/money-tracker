@@ -1,100 +1,233 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
   <title>Money Tracker</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <link rel="stylesheet" href="style.css">
+  <link
+    rel="stylesheet"
+    href="style.css"
+  />
+
 </head>
 
-<body class="bg-gray-100 min-h-screen p-5">
+<body class="bg-gray-100 min-h-screen">
 
-  <div class="max-w-md mx-auto bg-white rounded-3xl shadow-xl p-5">
+  <div class="max-w-md mx-auto p-5">
 
-    <h1 class="text-3xl font-bold mb-5">
-      💸 Money Tracker
-    </h1>
+    <!-- HERO -->
 
-    <!-- Budget Setup -->
+    <div class="bg-black text-white rounded-3xl p-6 shadow-xl">
 
-    <div class="space-y-3">
+      <div class="text-sm opacity-70">
+        Batas Hari Ini
+      </div>
 
-      <input
-        id="foodBudget"
-        type="number"
-        placeholder="Budget makan"
-        class="w-full border p-3 rounded-2xl"
+      <div
+        id="heroLimit"
+        class="text-5xl font-bold mt-2"
       >
+        Rp 0
+      </div>
 
-      <input
-        id="snackBudget"
-        type="number"
-        placeholder="Budget jajan"
-        class="w-full border p-3 rounded-2xl"
+      <div
+        id="heroStatus"
+        class="mt-4 inline-block px-4 py-2 rounded-full bg-green-500 text-sm font-bold"
       >
+        🟢 AMAN
+      </div>
 
-      <input
-        id="rentBudget"
-        type="number"
-        placeholder="Kontrakan"
-        class="w-full border p-3 rounded-2xl"
-      >
+      <div class="mt-6 grid grid-cols-2 gap-4">
 
-      <input
-        id="otherBudget"
-        type="number"
-        placeholder="Lain-lain"
-        class="w-full border p-3 rounded-2xl"
-      >
+        <div>
 
-      <button
-        onclick="saveBudget()"
-        class="w-full bg-black text-white p-3 rounded-2xl"
-      >
-        Simpan Budget
-      </button>
+          <div class="text-sm opacity-70">
+            Sisa Uang
+          </div>
 
-    <button
-        onclick="deleteAllData()"
-        class="w-full bg-red-600 text-white p-3 rounded-2xl mt-2"
+          <div
+            id="heroRemaining"
+            class="text-xl font-bold mt-1"
+          >
+            Rp 0
+          </div>
+
+        </div>
+
+        <div>
+
+          <div class="text-sm opacity-70">
+            Sisa Hari
+          </div>
+
+          <div
+            id="heroDays"
+            class="text-xl font-bold mt-1"
+          >
+            0 Hari
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- QUICK ADD -->
+
+    <div class="mt-5">
+
+      <div class="text-sm font-bold text-gray-500 mb-3">
+        QUICK ADD
+      </div>
+
+      <div class="grid grid-cols-4 gap-2">
+
+        <button
+          onclick="quickAdd(10000)"
+          class="bg-white rounded-2xl p-3 shadow"
         >
-        Hapus Semua Data
-    </button>
+          10rb
+        </button>
+
+        <button
+          onclick="quickAdd(15000)"
+          class="bg-white rounded-2xl p-3 shadow"
+        >
+          15rb
+        </button>
+
+        <button
+          onclick="quickAdd(20000)"
+          class="bg-white rounded-2xl p-3 shadow"
+        >
+          20rb
+        </button>
+
+        <button
+          onclick="quickAdd(25000)"
+          class="bg-white rounded-2xl p-3 shadow"
+        >
+          25rb
+        </button>
+
+      </div>
 
     </div>
 
-    <!-- Summary -->
+    <!-- SUMMARY -->
 
-    <div class="mt-6 space-y-3">
+    <div class="mt-6 bg-white rounded-3xl p-5 shadow">
+
+      <div class="flex justify-between py-2">
+
+        <div class="text-gray-500">
+          🍜 Makan
+        </div>
+
+        <div
+          id="foodSummary"
+          class="font-bold"
+        >
+          Rp 0
+        </div>
+
+      </div>
+
+      <div class="flex justify-between py-2">
+
+        <div class="text-gray-500">
+          🍟 Jajan
+        </div>
+
+        <div
+          id="snackSummary"
+          class="font-bold"
+        >
+          Rp 0
+        </div>
+
+      </div>
+
+      <div class="flex justify-between py-2">
+
+        <div class="text-gray-500">
+          📦 Lain-lain
+        </div>
+
+        <div
+          id="otherSummary"
+          class="font-bold"
+        >
+          Rp 0
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- HISTORY -->
+
+    <div class="mt-6">
+
+      <div class="flex justify-between items-center mb-3">
+
+        <div class="text-sm font-bold text-gray-500">
+          RIWAYAT
+        </div>
+
+        <button
+          onclick="deleteAllData()"
+          class="text-red-500 text-sm"
+        >
+          Hapus Semua
+        </button>
+
+      </div>
 
       <div
-        id="foodSummary"
-        class="bg-gray-100 p-4 rounded-2xl"
-      ></div>
-
-      <div
-        id="snackSummary"
-        class="bg-gray-100 p-4 rounded-2xl"
-      ></div>
-
-      <div
-        id="otherSummary"
-        class="bg-gray-100 p-4 rounded-2xl"
+        id="history"
+        class="space-y-2"
       ></div>
 
     </div>
 
-    <!-- Expense -->
+  </div>
 
-    <div class="mt-6 space-y-3">
+  <!-- FLOATING BUTTON -->
+
+  <button
+    onclick="openModal()"
+    class="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-black text-white text-4xl shadow-2xl"
+  >
+    +
+  </button>
+
+  <!-- MODAL -->
+
+  <div
+    id="modal"
+    class="hidden fixed inset-0 bg-black/40 flex items-end"
+  >
+
+    <div class="bg-white w-full rounded-t-3xl p-5">
+
+      <div class="text-xl font-bold mb-5">
+        Tambah Pengeluaran
+      </div>
 
       <select
         id="expenseCategory"
-        class="w-full border p-3 rounded-2xl"
+        class="w-full border rounded-2xl p-4 mb-3"
       >
         <option>Makan</option>
         <option>Jajan</option>
@@ -105,37 +238,82 @@
         id="expenseAmount"
         type="number"
         placeholder="Nominal"
-        class="w-full border p-3 rounded-2xl"
-      >
+        class="w-full border rounded-2xl p-4 mb-3"
+      />
 
       <input
         id="expenseNote"
         type="text"
         placeholder="Keterangan"
-        class="w-full border p-3 rounded-2xl"
-      >
+        class="w-full border rounded-2xl p-4 mb-3"
+      />
 
-      <button
-        onclick="addExpense()"
-        class="w-full bg-green-600 text-white p-3 rounded-2xl"
-      >
-        Tambah Pengeluaran
-      </button>
+      <div class="flex gap-3">
 
-    </div>
+        <button
+          onclick="closeModal()"
+          class="flex-1 bg-gray-200 rounded-2xl p-4"
+        >
+          Batal
+        </button>
 
-    <!-- History -->
+        <button
+          onclick="addExpense()"
+          class="flex-1 bg-black text-white rounded-2xl p-4"
+        >
+          Simpan
+        </button>
 
-    <div class="mt-6">
+      </div>
 
-      <h2 class="font-bold text-lg mb-3">
-        Riwayat
-      </h2>
+      <!-- BUDGET -->
 
-      <div
-        id="history"
-        class="space-y-3"
-      ></div>
+      <details class="mt-6">
+
+        <summary class="cursor-pointer text-gray-500">
+          ⚙ Pengaturan Budget
+        </summary>
+
+        <div class="mt-4 space-y-3">
+
+          <input
+            id="foodBudget"
+            type="number"
+            placeholder="Budget makan"
+            class="w-full border rounded-2xl p-4"
+          />
+
+          <input
+            id="snackBudget"
+            type="number"
+            placeholder="Budget jajan"
+            class="w-full border rounded-2xl p-4"
+          />
+
+          <input
+            id="rentBudget"
+            type="number"
+            placeholder="Kontrakan"
+            class="w-full border rounded-2xl p-4"
+          />
+
+          <input
+            id="otherBudget"
+            type="number"
+            placeholder="Lain-lain"
+            class="w-full border rounded-2xl p-4"
+          />
+
+          <button
+            onclick="saveBudget()"
+            class="w-full bg-green-600 text-white rounded-2xl p-4"
+          >
+            Simpan Budget
+          </button>
+
+        </div>
+
+      </details>
 
     </div>
 
