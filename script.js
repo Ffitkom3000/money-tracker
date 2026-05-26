@@ -130,21 +130,6 @@ function addExpense() {
 
 }
 
-function quickAdd(amount) {
-
-  data.expenses.push({
-    category: "Makan",
-    amount: amount,
-    note: "Quick Add",
-    date: new Date().toISOString()
-  });
-
-  saveData();
-
-  render();
-
-}
-
 function editExpense(index) {
 
   const item =
