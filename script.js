@@ -5,7 +5,6 @@ function createDefaultData() {
     budgets: {
       food: 0,
       snack: 0,
-      rent: 0,
       other: 0
     },
 
@@ -65,9 +64,6 @@ function saveBudget() {
 
   data.budgets.snack =
     Number(document.getElementById("snackBudget").value);
-
-  data.budgets.rent =
-    Number(document.getElementById("rentBudget").value);
 
   data.budgets.other =
     Number(document.getElementById("otherBudget").value);
@@ -283,7 +279,7 @@ function render() {
   const heroStatus =
     document.getElementById("heroStatus");
 
-  if (dailyLimit >= 40000) {
+  if (dailyLimit >= 32000) {
 
     heroStatus.innerHTML =
       "🟢 AMAN";
@@ -291,7 +287,7 @@ function render() {
     heroStatus.className =
       "mt-4 inline-block px-4 py-2 rounded-full bg-green-500 text-sm font-bold";
 
-  } else if (dailyLimit >= 20000) {
+  } else if (dailyLimit >= 24000) {
 
     heroStatus.innerHTML =
       "🟡 HEMAT DIKIT";
